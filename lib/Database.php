@@ -1,5 +1,6 @@
 <?php
-include '../config/config.php';
+$filepath = realpath(dirname(__FILE__));//realpath é o endereço do diretório onde está este arquivo
+include_once ($filepath.'/../config/config.php');
 
  class Database {
 

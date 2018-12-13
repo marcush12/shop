@@ -1,6 +1,8 @@
 <?php
-include_once '../lib/Database.php';
-include_once '../helpers/Format.php';
+$filepath = realpath(dirname(__FILE__));//realpath é o endereço do diretório onde está este arquivo
+include_once ($filepath.'/../lib/Database.php');
+include_once ($filepath.'/../helpers/Format.php');
+
 
 class Category {
 
