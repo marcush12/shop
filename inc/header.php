@@ -11,10 +11,13 @@ spl_autoload_register(function($class) {//todas as classes q forem criadas estar
 $db = new Database();
 $fm = new Format();
 $pd = new Product();
+$cat = new Category();
 $ct = new Cart();
+$cmr = new User();
 ?>
 
 <!DOCTYPE HTML>
+<html lang="pt">
 <head>
 <title>Store Website</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -52,11 +55,38 @@ $ct = new Cart();
                     <div class="cart">
                         <a href="#" title="View my shopping cart" rel="nofollow">
                                 <span class="cart_title">Cart</span>
-                                <span class="no_product">(empty)</span>
+                                <span class="no_product">
+                                  <?php
+                                  $getData = $ct->checkCartTable();
+                                  if ($getData) {
+                                    $sum = Session::get("sum");
+                                    $qty = Session::get("qty");
+                                    echo "R$".$sum." Ítens: ".$qty;
+                                  } else {
+                                    echo "(vazio)";
+                                  }
+
+                                  ?>
+                                </span>
                             </a>
                         </div>
                   </div>
-           <div class="login"><a href="login.php">Login</a></div>
+          <?php
+          if (isset($_GET['cid'])) {
+            $delDate = $ct->delCustomerCart();
+            Session::destroy();
+          }
+          ?>
+
+          <div class="login">
+            <?php
+            $login = Session::get("cuslogin");//attention: get
+            if ($login == false) { ?>
+                <a href="login.php">Entrar</a>
+            <?php } else { ?>
+                <a href="?cid=<?php Session::get('cmrId'); ?>">Sair</a>
+            <?php } ?>
+          </div>
          <div class="clear"></div>
      </div>
      <div class="clear"></div>
@@ -66,7 +96,25 @@ $ct = new Cart();
       <li><a href="index.php">Home</a></li>
       <li><a href="products.php">Products</a> </li>
       <li><a href="topbrands.php">Top Brands</a></li>
-      <li><a href="cart.php">Cart</a></li>
+
+      <?php
+      $chkCart = $ct->checkCartTable();
+      if ($chkCart) { ?>
+        <li><a href="cart.php">Cart</a></li>
+        <li><a href="payment.php">Pagamento</a></li>
+      <?php
+      }
+      ?>
+
+      <?php
+      $login = Session::get("cuslogin");
+      if ($login) { ?>
+        <li><a href="profile.php">Perfil</a></li>
+      <?php
+      }
+      ?>
+
+
       <li><a href="contact.php">Contact</a> </li>
       <div class="clear"></div>
     </ul>

@@ -184,5 +184,59 @@ class Product {
         return $result;
     }
 
+    public function getNewProduct() {
+        $query = "SELECT * FROM tbl_product ORDER BY productId DESC LIMIT 4";
+        $result = $this->db->select($query);
+        return $result;
+    }
+
+    public function getSingleProduct($id) {
+        $query = "SELECT tbl_product.*, tbl_category.catName, tbl_brand.brandName
+                  FROM tbl_product
+                  INNER JOIN tbl_category
+                  ON tbl_product.catId = tbl_category.catId
+                  INNER JOIN tbl_brand
+                  ON tbl_product.brandId = tbl_brand.brandId
+                  AND tbl_product.productId = '$id'
+                  ORDER BY tbl_product.productId DESC
+                ";
+        $result = $this->db->select($query);
+        return $result;
+    }
+
+    public function latestFromAcer() {
+        $query = "SELECT * FROM tbl_product WHERE brandId ='3' ORDER BY productId DESC LIMIT 1";
+        $result = $this->db->select($query);
+        return $result;
+    }
+    public function latestFromZara() {
+        $query = "SELECT * FROM tbl_product WHERE brandId ='1' ORDER BY productId DESC LIMIT 1";
+        $result = $this->db->select($query);
+        return $result;
+    }
+    public function latestFromPolo() {
+        $query = "SELECT * FROM tbl_product WHERE brandId ='2' ORDER BY productId DESC LIMIT 1";
+        $result = $this->db->select($query);
+        return $result;
+    }
+    public function latestFromSamsung() {
+        $query = "SELECT * FROM tbl_product WHERE brandId ='5' ORDER BY productId DESC LIMIT 1";
+        $result = $this->db->select($query);
+        return $result;
+    }
+
+    public function productByCat($id) {
+        $catId = mysqli_real_escape_string($this->db->link, $id);
+        $query = "SELECT * FROM tbl_product WHERE catId = '$catId'";
+        $result = $this->db->select($query);
+        return $result;
+    }
+
+    public function productByOnlyCat($id) {
+        $query = "SELECT * FROM tbl_category WHERE catId = '$id'";
+        $result = $this->db->select($query);
+        return $result;
+    }
+
 }
 ?>
