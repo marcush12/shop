@@ -1,29 +1,39 @@
 <?php include 'inc/header.php';?>
-<?php include 'inc/sidebar.php';?>
+<?php include 'inc/sidebar.php';
+include '../classes/Brand.php';?>
+<?php
+$brand = new Brand();
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
+
+    $insertslider = $brand->sliderInsert($_POST, $_FILES);//for images $_files
+
+}
+?>
 <div class="grid_10">
     <div class="box round first grid">
         <h2>Add New Slider</h2>
-    <div class="block">               
-         <form action="addslider.php" method="post" enctype="multipart/form-data">
-            <table class="form">     
+    <div class="block">
+        <?php if (isset($insertslider)) {echo $insertslider; } ?>
+         <form action="" method="post" enctype="multipart/form-data">
+            <table class="form">
                 <tr>
                     <td>
-                        <label>Title</label>
+                        <label>Título</label>
                     </td>
                     <td>
                         <input type="text" name="title" placeholder="Enter Slider Title..." class="medium" />
                     </td>
-                </tr>           
-    
+                </tr>
+
                 <tr>
                     <td>
-                        <label>Upload Image</label>
+                        <label>Upload Imagem</label>
                     </td>
                     <td>
                         <input type="file" name="image"/>
                     </td>
                 </tr>
-               
+
 				<tr>
                     <td></td>
                     <td>

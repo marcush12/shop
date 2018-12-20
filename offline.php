@@ -7,6 +7,14 @@ if ($login == false) {
     header("Location:login.php");//se já logado vai direto p order.php
 }
 ?>
+<?php
+if (isset($_GET['orderid']) && $_GET['orderid'] == 'order') {
+    $cmrId = Session::get("cmrId");
+    $insertOrder = $ct->orderProduct($cmrId);
+    $delDate = $ct->delCustomerCart();
+    header('Location: success.php');
+}
+?>
 <style>
     .division {width: 50%; float: left;}
     .tblone {width: 480px; margin:0 auto; border: 2px solid #ddd; font-size: 11px;}
@@ -146,6 +154,6 @@ if ($login == false) {
             </div>
         </div>
     </div>
-    <div class='ordernow'><a href="">Solicitar</a></div>
+    <div class='ordernow'><a href="?orderid=order">Comprar</a></div>
 </div>
 <?php include 'inc/footer.php'; ?>

@@ -47,8 +47,9 @@ $cmr = new User();
             </div>
               <div class="header_top_right">
                 <div class="search_box">
-                    <form>
-                        <input type="text" value="Search for Products" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search for Products';}"><input type="submit" value="SEARCH">
+                    <form action='search.php' method='get'>
+                        <input type="text" name='search' placeholder="Pesquisar por produtos...">
+                        <input type="submit" value="Pesquisar">
                     </form>
                 </div>
                 <div class="shopping_cart">
@@ -73,7 +74,9 @@ $cmr = new User();
                   </div>
           <?php
           if (isset($_GET['cid'])) {
+            $cmrId = Session::get("cmrId");
             $delDate = $ct->delCustomerCart();
+            $delComp = $pd->delCompareData($cmrId);
             Session::destroy();
           }
           ?>
@@ -94,7 +97,6 @@ $cmr = new User();
 <div class="menu">
     <ul id="dc_mega-menu-orange" class="dc_mm-orange">
       <li><a href="index.php">Home</a></li>
-      <li><a href="products.php">Products</a> </li>
       <li><a href="topbrands.php">Top Brands</a></li>
 
       <?php
@@ -102,6 +104,15 @@ $cmr = new User();
       if ($chkCart) { ?>
         <li><a href="cart.php">Cart</a></li>
         <li><a href="payment.php">Pagamento</a></li>
+      <?php
+      }
+      ?>
+
+      <?php
+      $cmrId = Session::get("cmrId");
+      $chkOrder = $ct->checkOrder($cmrId);
+      if ($chkOrder) { ?>
+        <li><a href="order.php">Pedidos</a></li>
       <?php
       }
       ?>
@@ -115,7 +126,18 @@ $cmr = new User();
       ?>
 
 
-      <li><a href="contact.php">Contact</a> </li>
+      <?php
+      $cmrId = Session::get("cmrId");
+      $getPd = $pd->getCompareProduct($cmrId);
+      if ($getPd) { ?>
+      <li><a href="compare.php">Comparar</a> </li>
+    <?php } ?>
+    <?php
+      $checkwlist = $pd->checkWlistData($cmrId);
+      if ($checkwlist) { ?>
+      <li><a href="wishlist.php">Wish List</a> </li>
+    <?php } ?>
+      <li><a href="contact.php">Contato</a> </li>
       <div class="clear"></div>
     </ul>
 </div>

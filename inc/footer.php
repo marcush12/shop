@@ -2,55 +2,70 @@
       <div class="wrapper">
          <div class="section group">
                 <div class="col_1_of_4 span_1_of_4">
-                        <h4>Information</h4>
+                        <h4>Informação</h4>
                         <ul>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Customer Service</a></li>
-                        <li><a href="#"><span>Advanced Search</span></a></li>
-                        <li><a href="#">Orders and Returns</a></li>
-                        <li><a href="#"><span>Contact Us</span></a></li>
+                        <li><a href="#">Sobre Nós</a></li>
+                        <li><a href="#">Serviços ao cliente</a></li>
+                        <li><a href="#"><span>Pesquisa Avançada</span></a></li>
+                        <li><a href="#">Pedidos</a></li>
+                        <li><a href="#"><span>Contato</span></a></li>
                         </ul>
                     </div>
                 <div class="col_1_of_4 span_1_of_4">
-                    <h4>Why buy from us</h4>
+                    <h4>Por que comprar aqui?</h4>
                         <ul>
-                        <li><a href="about.php">About Us</a></li>
-                        <li><a href="faq.php">Customer Service</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="contact.php"><span>Site Map</span></a></li>
-                        <li><a href="preview.php"><span>Search Terms</span></a></li>
+                        <li><a href="about.php">Sobre Nós</a></li>
+                        <li><a href="faq.php">Serviços ao cliente</a></li>
+                        <li><a href="#">Política de Privacidade</a></li>
+                        <li><a href="contact.php"><span>Mapa do Site</span></a></li>
+                        <li><a href="preview.php"><span>Termos de Pesquisa</span></a></li>
                         </ul>
                 </div>
                 <div class="col_1_of_4 span_1_of_4">
-                    <h4>My account</h4>
+                    <h4>Minha Conta</h4>
                         <ul>
-                            <li><a href="contact.php">Sign In</a></li>
-                            <li><a href="index.php">View Cart</a></li>
-                            <li><a href="#">My Wishlist</a></li>
-                            <li><a href="#">Track My Order</a></li>
-                            <li><a href="faq.php">Help</a></li>
+                            <li><a href="contact.php">Entrar</a></li>
+                            <li><a href="index.php">Ver Carrinho</a></li>
+                            <li><a href="#">Wishlist</a></li>
+                            <li><a href="#">Meus pedidos</a></li>
+                            <li><a href="faq.php">Ajuda</a></li>
                         </ul>
                 </div>
                 <div class="col_1_of_4 span_1_of_4">
-                    <h4>Contact</h4>
+                    <h4>Contato</h4>
                         <ul>
-                            <li><span>support@easylearningbd.com</span></li>
-                            <li><span>www.easylearningbd.com</span></li>
+                            <li><span>tonydevelopersolutions@gmail.com</span></li>
+                            <li><span>tonydevelopersolutions.com</span></li>
                         </ul>
                         <div class="social-icons">
-                            <h4>Follow Us</h4>
+                            <h4>Siga-nos</h4>
                               <ul>
-                                  <li class="facebook"><a href="#" target="_blank"> </a></li>
-                                  <li class="twitter"><a href="#" target="_blank"> </a></li>
-                                  <li class="googleplus"><a href="#" target="_blank"> </a></li>
-                                  <li class="contact"><a href="#" target="_blank"> </a></li>
+                                  <?php
+                                   $brand = new Brand();
+                                   $getsocial = $brand->getsocialById();
+                                   if ($getsocial) {
+                                    while ($result = $getsocial->fetch_assoc()) {
+                                   ?>
+                                  <li class="facebook"><a href="<?php echo $result['fb']; ?>" target="_blank"> </a></li>
+                                  <li class="twitter"><a href="<?php echo $result['tw']; ?>" target="_blank"> </a></li>
+                                  <li class="googleplus"><a href="<?php echo $result['gp']; ?>" target="_blank"> </a></li>
+                                  <li class="contact"><a href="contact.php" target="_blank"> </a></li>
+                                  <?php }} ?>
                                   <div class="clear"></div>
                              </ul>
+
                         </div>
                 </div>
             </div>
             <div class="copy_right">
-                <p>easy Learning project &amp; All rights Reseverd </p>
+                <?php
+                 $brand = new Brand();
+                 $getcopy = $brand->getcopyById();
+                 if ($getcopy) {
+                  while ($result = $getcopy->fetch_assoc()) {
+                ?>
+                <p><?php echo $result['copyright']; ?></p>
+                <?php }} ?>
            </div>
      </div>
     </div>

@@ -76,5 +76,98 @@ class Brand {
         }
     }
 
+    public function getcopyById() {
+        $query = "SELECT * FROM tbl_copy";
+        $result = $this->db->select($query);
+        return $result;
+    }
+
+    public function footerUpdate($copyright) {
+        $copyright = $this->fm->validation($copyright);
+        $copyright = mysqli_real_escape_string($this->db->link, $copyright);
+        if (empty($copyright)) {
+            $msg = "<span class='error'>O campo do footer não pode ficar em branco</span>";
+            return $msg;
+        } else {
+            $query = "UPDATE tbl_copy SET copyright = '$copyright' WHERE id ='1'";
+            $update_row = $this->db->update($query);
+            if ($update_row) {
+                $msg = "<span class='success'>Footer foi atualizado com sucesso</span>";
+                return $msg;
+            } else {
+                $msg = "<span class='error'>Footer não foi atualizado</span>";
+                return $msg;
+            }
+        }
+    }
+
+    public function getsocialById() {
+        $query = "SELECT * FROM tbl_social";
+        $result = $this->db->select($query);
+        return $result;
+    }
+
+    public function socialUpdate($fb, $tw, $ln, $gp) {
+        $fb = $this->fm->validation($fb);
+        $tw = $this->fm->validation($tw);
+        $ln = $this->fm->validation($ln);
+        $gp = $this->fm->validation($gp);
+        $fb = mysqli_real_escape_string($this->db->link, $fb);
+        $tw = mysqli_real_escape_string($this->db->link, $tw);
+        $ln = mysqli_real_escape_string($this->db->link, $ln);
+        $gp = mysqli_real_escape_string($this->db->link, $gp);
+        if (empty($fb)) {
+            $msg = "<span class='error'>O campo do social não pode ficar em branco</span>";
+            return $msg;
+        } else {
+            $query = "UPDATE tbl_social SET fb = '$fb', tw = '$tw', ln = '$ln', gp = '$gp' WHERE id ='1'";
+            $update_row = $this->db->update($query);
+            if ($update_row) {
+                $msg = "<span class='success'>Social foi atualizado com sucesso</span>";
+                return $msg;
+            } else {
+                $msg = "<span class='error'>Social não foi atualizado</span>";
+                return $msg;
+            }
+        }
+    }
+
+    public function getAllimage() {
+        $query = "SELECT * FROM tbl_image";
+        $result = $this->db->select($query);
+        return $result;
+    }
+
+    public function sliderInsert($data, $file) {
+        $title = $this->fm->validation($data['title']);
+
+        $permited = array('jpg', 'png', 'jpeg', 'gif');
+        $file_name = $file['image']['name'];
+        $file_size = $file['image']['size'];
+        $file_temp = $file['image']['tmp_name'];
+
+        $div = explode('.', $file_name);
+        $file_ext = strtolower(end($div)); //extensão
+        $unique_image = substr(md5(time()), 0, 10).'.'.$file_ext;
+        $uploaded_image = "upload/". $unique_image;
+
+        if ($title == "") {
+            $msg ="<span class='error'>O campo não pode ficar em branco</span>";
+            return $msg;
+        } else {
+            move_uploaded_file($file_temp, $uploaded_image);
+            $query = "INSERT INTO tbl_image(title, image)
+                                      VALUES ('$title', '$uploaded_image')";
+            $inserted_row = $this->db->insert($query);
+            if ($inserted_row) {
+                $msg ="<span class='success'>Slider inserido com sucesso</span>";
+                return $msg;
+            } else {
+               $msg ="<span class='error'>Slider não foi inserido</span>";
+               return $msg;
+            }
+        }
+    }
+
 }
 ?>
